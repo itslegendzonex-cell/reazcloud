@@ -1,1 +1,207 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReAzCloud - Minecraft Hosting</title>
+<style>
+:root{--bg:#080b16;--panel:#11172a;--blue:#6485ff;--purple:#9b6cff;--muted:#9ba7c3;--white:#f4f6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0}
+nav{height:76px;padding:0 7%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:#090d1bd9;position:sticky;top:0;z-index:10;backdrop-filter:blur(15px)}
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px}
+.logo span{color:#829aff}
+.navlinks{display:flex;align-items:center;gap:25px}
+.navlinks a{color:#b9c3dc;text-decoration:none;font-size:14px}
+.btn{padding:12px 19px;border-radius:10px;color:white;background:linear-gradient(110deg,var(--blue),var(--purple));font-weight:bold}
+.btn.secondary{background:#1a2340;border:1px solid #ffffff20}
+.hero{text-align:center;padding:100px 20px 85px;background:radial-gradient(ellipse at 50% 0%,#364b9b42,transparent 65%)}
+.tag{display:inline-block;border:1px solid #718cff55;background:#718cff13;color:#aabaff;padding:8px 14px;border-radius:30px;font-size:12px;margin-bottom:25px}
+h1{font-size:clamp(40px,8vw,72px);line-height:1.08;letter-spacing:-3px;max-width:850px;margin:auto}
+.gradient{background:linear-gradient(100deg,#8ba8ff,#b18aff,#67d9ff);background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:22px auto;color:var(--muted);line-height:1.8;font-size:16px}
+.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+.section{padding:65px 7%;max-width:1250px;margin:auto}
+.section-title{text-align:center;font-size:32px;margin-bottom:12px}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:35px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.feature,.plan,.server-card{background:linear-gradient(145deg,#151d35,#0e1426);border:1px solid #ffffff12;border-radius:16px;padding:24px}
+.feature .emoji{font-size:27px;margin-bottom:16px}
+.feature h3{margin-bottom:10px}
+.feature p,.plan p{color:var(--muted);font-size:14px;line-height:1.7}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.plan h3{margin-bottom:12px}
+.price{font-size:30px;font-weight:900;margin:18px 0}
+.price small{font-size:13px;color:var(--muted);font-weight:normal}
+.plan ul{list-style:none;color:#c6cee2;font-size:14px;line-height:2.3;margin:15px 0}
+.plan button{width:100%}
+footer{border-top:1px solid #ffffff12;padding:30px 7%;text-align:center;color:var(--muted);font-size:13px}
+.page{display:none;max-width:1100px;margin:auto;padding:45px 6%}
+.page.active{display:block}
+.page h2{font-size:30px;margin-bottom:10px}
+.muted{color:var(--muted);line-height:1.7}
+.dash-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:20px 0 30px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:25px}
+.stat{background:var(--panel);border:1px solid #ffffff13;border-radius:13px;padding:20px}
+.stat strong{display:block;font-size:26px;margin-top:8px}
+.server-card{margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.status{color:#71e8ac;font-size:12px}
+.modal-bg{display:none;position:fixed;inset:0;background:#000b;z-index:30;align-items:center;justify-content:center;padding:15px}
+.modal-bg.show{display:flex}
+.modal{background:#151d35;border:1px solid #ffffff25;padding:27px;border-radius:17px;width:100%;max-width:420px}
+.modal h2{margin-bottom:20px}
+.modal input,.modal select{width:100%;padding:13px;margin:8px 0 15px;background:#0a1020;border:1px solid #ffffff25;border-radius:9px;color:white}
+.modal label{font-size:13px;color:#c3cbe0}
+.modal .btn{width:100%;margin-top:8px}
+.close{float:right;background:transparent;color:white;font-size:23px}
+.notice{font-size:12px;color:#aebbd8;line-height:1.6;margin-top:15px}
+@media(max-width:700px){
+ nav{padding:0 5%;height:66px}.navlinks{gap:10px}.navlinks a{display:none}
+ .hero{padding:75px 17px}.features,.plans,.stats{grid-template-columns:1fr}
+ .section{padding:48px 5%}h1{letter-spacing:-2px}
+}
+</style>
+</head>
+<body>
+<nav>
+ <div class="logo">ReAz<span>Cloud</span></div>
+ <div class="navlinks">
+  <a href="#" onclick="showPage('home')">Home</a>
+  <a href="#features">Features</a>
+  <a href="#plans">Plans</a>
+  <button class="btn secondary" onclick="openModal()">Login / Sign up</button>
+ </div>
+</nav>
+
+<main id="home">
+ <header class="hero">
+  <div class="tag">☁️ NEXT-GEN MINECRAFT HOSTING</div>
+  <h1>Your Minecraft World.<br><span class="gradient">Your Rules.</span></h1>
+  <p>Build your world, create your community and experience Minecraft server hosting with ReAzCloud.</p>
+  <div class="actions">
+   <button class="btn" onclick="openModal()">Get Started →</button>
+   <a href="#features"><button class="btn secondary">Explore Features</button></a>
+  </div>
+ </header>
+
+ <section class="section" id="features">
+  <h2 class="section-title">Everything You Need</h2>
+  <p class="subtitle">Tools to manage your Minecraft server.</p>
+  <div class="features">
+   <div class="feature"><div class="emoji">⚡</div><h3>Fast Performance</h3><p>Designed for smooth Minecraft gameplay and server management.</p></div>
+   <div class="feature"><div class="emoji">🎮</div><h3>Multiple Software</h3><p>Plan for Paper, Purpur, Vanilla and other Minecraft server software.</p></div>
+   <div class="feature"><div class="emoji">🛡️</div><h3>Server Security</h3><p>A secure management experience with account-based access.</p></div>
+   <div class="feature"><div class="emoji">📂</div><h3>File Management</h3><p>Manage worlds, configurations and plugins from one place.</p></div>
+   <div class="feature"><div class="emoji">📊</div><h3>Live Monitoring</h3><p>View server status and resource usage in your dashboard.</p></div>
+   <div class="feature"><div class="emoji">🌍</div><h3>Community Ready</h3><p>Build your multiplayer community and invite your friends.</p></div>
+  </div>
+ </section>
+
+ <section class="section" id="plans">
+  <h2 class="section-title">Simple Hosting Plans</h2>
+  <p class="subtitle">Our planned hosting tiers.</p>
+  <div class="plans">
+   <div class="plan"><h3>Starter</h3><p>For small experiments</p><div class="price">Free</div><ul><li>✓ Basic server panel</li><li>✓ Server management</li><li>✓ Community support</li></ul><button class="btn secondary" onclick="openModal()">Get Started</button></div>
+   <div class="plan"><h3>Pro</h3><p>For growing communities</p><div class="price">Coming Soon</div><ul><li>✓ More resources</li><li>✓ Advanced controls</li><li>✓ Priority support</li></ul><button class="btn secondary" onclick="openModal()">Join Waitlist</button></div>
+   <div class="plan"><h3>Ultimate</h3><p>For large communities</p><div class="price">Coming Soon</div><ul><li>✓ Advanced server tools</li><li>✓ More flexibility</li><li>✓ Dedicated support</li></ul><button class="btn secondary" onclick="openModal()">Join Waitlist</button></div>
+  </div>
+ </section>
+</main>
+
+<section class="page" id="dashboard">
+ <div class="dash-top">
+  <div><h2>My Dashboard</h2><p class="muted">Welcome to ReAzCloud.</p></div>
+  <button class="btn" onclick="createServer()">+ Create Server</button>
+ </div>
+ <div class="stats">
+  <div class="stat">Total Servers<strong id="total">0</strong></div>
+  <div class="stat">Online Servers<strong id="online">0</strong></div>
+  <div class="stat">Account<strong>Demo</strong></div>
+ </div>
+ <h3 style="margin-bottom:17px">Your Servers</h3>
+ <div id="servers"><p class="muted">No servers yet. Create your first demo server!</p></div>
+ <p class="notice">Demo dashboard: server creation here is a local preview. No actual Minecraft server is provisioned yet.</p>
+ <button class="btn secondary" onclick="showPage('home')" style="margin-top:20px">← Back to Home</button>
+</section>
+
+<div class="modal-bg" id="authModal">
+ <div class="modal">
+  <button class="close" onclick="closeModal()">×</button>
+  <h2>Welcome to ReAzCloud</h2>
+  <label>Email address</label>
+  <input id="email" type="email" placeholder="you@example.com">
+  <label>Display name</label>
+  <input id="username" placeholder="Your username">
+  <button class="btn" onclick="login()">Enter Demo Dashboard →</button>
+  <p class="notice">This is a frontend preview. Real accounts and secure authentication will be added with the backend.</p>
+ </div>
+</div>
+
+<div class="modal-bg" id="serverModal">
+ <div class="modal">
+  <button class="close" onclick="closeServerModal()">×</button>
+  <h2>Create Demo Server</h2>
+  <label>Server name</label>
+  <input id="serverName" placeholder="My Minecraft Server">
+  <label>Software</label>
+  <select id="software"><option>Paper</option><option>Purpur</option><option>Vanilla</option></select>
+  <button class="btn" onclick="addServer()">Create Demo Server</button>
+  <p class="notice">This creates a sample entry only. It does not start a real Minecraft server.</p>
+ </div>
+</div>
+
+<footer>© 2026 ReAzCloud. Built for Minecraft communities. <br><br>Independent project. Not affiliated with Mojang or Microsoft.</footer>
+
+<script>
+let servers=[];
+function showPage(name){
+ document.getElementById('home').style.display=name==='home'?'block':'none';
+ document.getElementById('dashboard').classList.toggle('active',name==='dashboard');
+ window.scrollTo(0,0);
+}
+function openModal(){document.getElementById('authModal').classList.add('show')}
+function closeModal(){document.getElementById('authModal').classList.remove('show')}
+function login(){
+ let email=document.getElementById('email').value.trim();
+ let username=document.getElementById('username').value.trim();
+ if(!email||!email.includes('@')||!username){alert('Enter a valid email and username.');return}
+ closeModal();showPage('dashboard');
+}
+function createServer(){document.getElementById('serverModal').classList.add('show')}
+function closeServerModal(){document.getElementById('serverModal').classList.remove('show')}
+function addServer(){
+ let name=document.getElementById('serverName').value.trim();
+ let software=document.getElementById('software').value;
+ if(!name){alert('Enter a server name.');return}
+ servers.push({name,software});
+ document.getElementById('serverName').value='';
+ closeServerModal();renderServers();
+}
+function renderServers(){
+ document.getElementById('total').textContent=servers.length;
+ document.getElementById('online').textContent='0';
+ let area=document.getElementById('servers');
+ area.innerHTML='';
+ servers.forEach((s,i)=>{
+  let card=document.createElement('div');
+  card.className='server-card';
+  let info=document.createElement('div');
+  let title=document.createElement('strong');
+  title.textContent=s.name;
+  let details=document.createElement('p');
+  details.className='muted';
+  details.textContent=s.software+' · Demo server';
+  info.append(title,details);
+  let status=document.createElement('span');
+  status.className='status';
+  status.textContent='● Not deployed';
+  card.append(info,status);
+  area.append(card);
+ });
+}
+</script>
+</body>
+</html>
